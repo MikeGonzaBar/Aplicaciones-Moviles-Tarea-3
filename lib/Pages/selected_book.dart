@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 class SelectedBook extends StatefulWidget {
   final dynamic bookData;
@@ -21,15 +22,13 @@ class _SelectedBookState extends State<SelectedBook> {
           IconButton(
             icon: const Icon(Icons.public),
             tooltip: 'Visitar página',
-            onPressed: () {
-              openContent(context);
-            },
+            onPressed: () {},
           ),
           IconButton(
             icon: const Icon(Icons.share),
             tooltip: 'Compartir contenido',
             onPressed: () {
-              shareContent(context);
+              shareContent(context, widget.bookData);
             },
           ),
         ],
@@ -102,7 +101,13 @@ class _SelectedBookState extends State<SelectedBook> {
     );
   }
 
-  void shareContent(BuildContext context) {}
-
-  void openContent(BuildContext context) {}
+  void shareContent(BuildContext context, dynamic bookData) async {
+    await FlutterShare.share(
+        title:
+            "${widget.bookData["volumeInfo"]["title"] != null ? widget.bookData["volumeInfo"]["title"] : "Title not available"}",
+        text:
+            "${widget.bookData["volumeInfo"]["description"] != null ? widget.bookData["volumeInfo"]["description"] : "Description not available"}",
+        linkUrl: "${widget.bookData["selfLink"]}",
+        chooserTitle: 'Elige como compartir tu libro');
+  }
 }
