@@ -51,7 +51,7 @@ class _SelectedBookState extends State<SelectedBook> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                 child: Text(
-                  "${widget.bookData["volumeInfo"]["title"] != null ? widget.bookData["volumeInfo"]["title"] : "Title not available"}",
+                  "${widget.bookData["volumeInfo"]["title"] ?? "Title not available"}",
                   style: const TextStyle(fontSize: 32),
                   overflow: titleShown ? null : TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -61,7 +61,7 @@ class _SelectedBookState extends State<SelectedBook> {
             Padding(
               padding: const EdgeInsets.only(bottom: 4.0),
               child: Text(
-                "${widget.bookData["volumeInfo"]["publishedDate"] != null ? widget.bookData["volumeInfo"]["publishedDate"] : "Date not available"}",
+                "${widget.bookData["volumeInfo"]["publishedDate"] ?? "Date not available"}",
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -72,7 +72,7 @@ class _SelectedBookState extends State<SelectedBook> {
             Padding(
               padding: const EdgeInsets.only(bottom: 4.0),
               child: Text(
-                "Paginas: ${widget.bookData["volumeInfo"]["pageCount"] != null ? widget.bookData["volumeInfo"]["pageCount"] : "Page number not available"}",
+                "Paginas: ${widget.bookData["volumeInfo"]["pageCount"] ?? "Page number not available"}",
                 style: const TextStyle(
                   fontSize: 18,
                 ),
@@ -85,7 +85,7 @@ class _SelectedBookState extends State<SelectedBook> {
                 setState(() {});
               },
               child: Text(
-                "${widget.bookData["volumeInfo"]["description"] != null ? widget.bookData["volumeInfo"]["description"] : "Description not available"}",
+                "${widget.bookData["volumeInfo"]["description"] ?? "Description not available"}",
                 maxLines: descShown ? 30 : 6,
                 overflow: descShown ? null : TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -104,9 +104,9 @@ class _SelectedBookState extends State<SelectedBook> {
   void shareContent(BuildContext context, dynamic bookData) async {
     await FlutterShare.share(
         title:
-            "${widget.bookData["volumeInfo"]["title"] != null ? widget.bookData["volumeInfo"]["title"] : "Title not available"}",
+            "${widget.bookData["volumeInfo"]["title"] ?? "Title not available"}",
         text:
-            "${widget.bookData["volumeInfo"]["description"] != null ? widget.bookData["volumeInfo"]["description"] : "Description not available"}",
+            "${widget.bookData["volumeInfo"]["description"] ?? "Description not available"}",
         linkUrl: "${widget.bookData["selfLink"]}",
         chooserTitle: 'Elige como compartir tu libro');
   }

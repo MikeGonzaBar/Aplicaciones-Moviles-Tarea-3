@@ -37,6 +37,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
 
       // emit(ResultsFound(books));
     } catch (e) {
+      // ignore: prefer_const_constructors
       emit(LoadingErrorState(
           errorMessage: "Error inesperado en la busqueda de libros"));
     }
