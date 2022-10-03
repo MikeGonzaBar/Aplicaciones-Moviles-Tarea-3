@@ -15,16 +15,16 @@ class LoadingState extends BookState {}
 class LoadingErrorState extends BookState {
   final String errorMessage;
 
-  LoadingErrorState({required this.errorMessage});
+  const LoadingErrorState({required this.errorMessage});
 
   @override
   List<Object?> get props => [];
 }
 
-class ResultsFound extends BookState {
+class ResultsFoundState extends BookState {
   final List<dynamic> books;
 
-  ResultsFound(this.books);
+  const ResultsFoundState({required this.books});
 
   @override
   List<Object?> get props => [books];

@@ -11,7 +11,7 @@ abstract class BookEvent extends Equatable {
 class SearchingEvent extends BookEvent {
   final String bookTitleSearch;
 
-  SearchingEvent({required this.bookTitleSearch});
+  const SearchingEvent({required this.bookTitleSearch});
   @override
   List<dynamic> get props => [bookTitleSearch];
 }

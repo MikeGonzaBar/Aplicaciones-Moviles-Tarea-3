@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:http/http.dart' as http;
 
 part 'book_event.dart';
 part 'book_state.dart';
@@ -12,22 +15,30 @@ class BookBloc extends Bloc<BookEvent, BookState> {
     on<SearchingEvent>(_searchBook);
   }
 
-  void _searchBook(SearchingEvent event, Emitter emit) {
+  Future<dynamic> _searchBook(SearchingEvent event, Emitter emit) async {
+    emit(LoadingState());
+
+    String requiredTitle = event.bookTitleSearch;
+    dynamic bookList;
+    final apiReq = Uri(
+        scheme: "https",
+        host: "www.googleapis.com",
+        path: "books/v1/volumes",
+        queryParameters: {"q": requiredTitle});
     try {
-      emit(LoadingState());
-      print("IMPRIMIENDO DESDE BLOC");
-      print("Searching: ${event.bookTitleSearch}");
-      String requiredTitle = event.bookTitleSearch;
-      final _api = Uri(
-          scheme: "https",
-          host: "www.googleapis.com",
-          path: "books/vi/volumes",
-          queryParameters: {"q": requiredTitle});
+      dynamic response = await http.get(apiReq);
+      bookList = jsonDecode(response.body);
+
+      if (bookList["items"] == null) {
+        throw Exception();
+      }
+
+      emit(ResultsFoundState(books: bookList["items"]));
 
       // emit(ResultsFound(books));
     } catch (e) {
-      LoadingErrorState(
-          errorMessage: "Error inesperado en la busqueda de libros");
+      emit(LoadingErrorState(
+          errorMessage: "Error inesperado en la busqueda de libros"));
     }
   }
 }
