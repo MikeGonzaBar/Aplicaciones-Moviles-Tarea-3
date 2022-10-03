@@ -35,67 +35,69 @@ class _SelectedBookState extends State<SelectedBook> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Image.network(
-              "${widget.bookData["volumeInfo"]["imageLinks"] != null ? widget.bookData["volumeInfo"]["imageLinks"]["thumbnail"] : "https://library.msu.ac.zw/img/nocover.png"}",
-              fit: BoxFit.fitHeight,
-              height: 350,
-            ),
-            GestureDetector(
-              onTap: () {
-                titleShown = !titleShown;
-                setState(() {});
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20.0, bottom: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Image.network(
+                "${widget.bookData["volumeInfo"]["imageLinks"] != null ? widget.bookData["volumeInfo"]["imageLinks"]["thumbnail"] : "https://library.msu.ac.zw/img/nocover.png"}",
+                fit: BoxFit.fitHeight,
+                height: 350,
+              ),
+              GestureDetector(
+                onTap: () {
+                  titleShown = !titleShown;
+                  setState(() {});
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20.0, bottom: 20),
+                  child: Text(
+                    "${widget.bookData["volumeInfo"]["title"] ?? "Title not available"}",
+                    style: const TextStyle(fontSize: 32),
+                    overflow: titleShown ? null : TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
                 child: Text(
-                  "${widget.bookData["volumeInfo"]["title"] ?? "Title not available"}",
-                  style: const TextStyle(fontSize: 32),
-                  overflow: titleShown ? null : TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
+                  "${widget.bookData["volumeInfo"]["publishedDate"] ?? "Date not available"}",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4.0),
-              child: Text(
-                "${widget.bookData["volumeInfo"]["publishedDate"] ?? "Date not available"}",
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: Text(
+                  "Paginas: ${widget.bookData["volumeInfo"]["pageCount"] ?? "Page number not available"}",
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
-                textAlign: TextAlign.left,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4.0),
-              child: Text(
-                "Paginas: ${widget.bookData["volumeInfo"]["pageCount"] ?? "Page number not available"}",
-                style: const TextStyle(
-                  fontSize: 18,
+              GestureDetector(
+                onTap: () {
+                  descShown = !descShown;
+                  setState(() {});
+                },
+                child: Text(
+                  "${widget.bookData["volumeInfo"]["description"] ?? "Description not available"}",
+                  maxLines: descShown ? 30 : 6,
+                  overflow: descShown ? null : TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
-                textAlign: TextAlign.left,
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                descShown = !descShown;
-                setState(() {});
-              },
-              child: Text(
-                "${widget.bookData["volumeInfo"]["description"] ?? "Description not available"}",
-                maxLines: descShown ? 30 : 6,
-                overflow: descShown ? null : TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontStyle: FontStyle.italic,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
