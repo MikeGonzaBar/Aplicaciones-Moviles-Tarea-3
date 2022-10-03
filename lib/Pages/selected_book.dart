@@ -108,7 +108,7 @@ class _SelectedBookState extends State<SelectedBook> {
         title:
             "${widget.bookData["volumeInfo"]["title"] ?? "Title not available"}",
         text:
-            "${widget.bookData["volumeInfo"]["description"] ?? "Description not available"}",
+            'Libro: ${widget.bookData["volumeInfo"]["title"] ?? "Title not available"}\nPaginas: ${widget.bookData["volumeInfo"]["pageCount"] ?? "Page number not available"}',
         linkUrl: "${widget.bookData["selfLink"]}",
         chooserTitle: 'Elige como compartir tu libro');
   }
