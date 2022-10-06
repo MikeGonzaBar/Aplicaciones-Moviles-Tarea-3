@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search),
                   onPressed: () async {
-                    ;
                     BlocProvider.of<BookBloc>(context).add(
                         SearchingEvent(bookTitleSearch: titleController.text));
                   },

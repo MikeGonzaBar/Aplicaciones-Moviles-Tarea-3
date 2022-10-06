@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:http/http.dart' as http;
+import 'package:tarea3/repositories/book_repository.dart';
 
 part 'book_event.dart';
 part 'book_state.dart';
@@ -11,6 +9,7 @@ part 'book_state.dart';
 class BookBloc extends Bloc<BookEvent, BookState> {
   BookState get initialState => BookInitialState();
 
+  final BookRepository bookRepository = BookRepository();
   BookBloc() : super(BookInitialState()) {
     on<SearchingEvent>(_searchBook);
   }
@@ -20,14 +19,8 @@ class BookBloc extends Bloc<BookEvent, BookState> {
 
     String requiredTitle = event.bookTitleSearch;
     dynamic bookList;
-    final apiReq = Uri(
-        scheme: "https",
-        host: "www.googleapis.com",
-        path: "books/v1/volumes",
-        queryParameters: {"q": requiredTitle});
     try {
-      dynamic response = await http.get(apiReq);
-      bookList = jsonDecode(response.body);
+      bookList = await bookRepository.getBooks(requiredTitle);
 
       if (bookList["items"] == null) {
         throw Exception();
